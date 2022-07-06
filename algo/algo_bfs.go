@@ -1,12 +1,15 @@
-package graph
+package algo
 
 import (
 	"container/list"
 	"fmt"
+
+	gograph "github.com/tuantran1810/go-graph/graph"
+	"github.com/tuantran1810/go-graph/utils"
 )
 
 // BFS() returns distance from start vertice to the others, nil means inf
-func BFS(graph IGraph, startVerticeID string) (map[string]*int, error) {
+func BFS(graph gograph.IGraph, startVerticeID string) (map[string]*int, error) {
 	startVertice := graph.GetVertice(startVerticeID)
 	if startVertice == nil {
 		return nil, fmt.Errorf("start vertice not exist, id: %s", startVerticeID)
@@ -48,7 +51,7 @@ func BFS(graph IGraph, startVerticeID string) (map[string]*int, error) {
 			continue
 		}
 		visited[vID] = true
-		result[vID] = newIntPtr(distance)
+		result[vID] = utils.NewIntPtr(distance)
 		graph.VerticeSuccessorsTraversal(
 			vID,
 			func(successorID, _ string) bool {
@@ -67,7 +70,7 @@ func BFS(graph IGraph, startVerticeID string) (map[string]*int, error) {
 type BFSTraversalFunc func(vID string)
 
 // BFSTraversal() travels from start vertice to the others
-func BFSTraversal(graph IGraph, startVerticeID string, f BFSTraversalFunc) error {
+func BFSTraversal(graph gograph.IGraph, startVerticeID string, f BFSTraversalFunc) error {
 	startVertice := graph.GetVertice(startVerticeID)
 	if startVertice == nil {
 		return fmt.Errorf("start vertice not exist, id: %s", startVerticeID)
